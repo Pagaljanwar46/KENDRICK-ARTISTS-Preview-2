@@ -515,13 +515,6 @@
     </div>
 
     <main class="roster-grid" id="musicGrid"></main>
-    <main class="roster-grid" id="musicGrid">
-    <div class="empty-state" id="musicStatus">
-        <i class="fa-solid fa-compact-disc"></i>
-        <h2>Nothing Here</h2>
-        <p>Our music roster is currently being updated. Please check back later.</p>
-    </div>
-</main>
 
 <footer class="site-footer">
         <div class="footer-content">
@@ -621,6 +614,17 @@
                     fragment.appendChild(a);
                 });
                 grid.appendChild(fragment);
+
+                // Only show the empty message when there really are no music artists
+                if (snapshot.empty) {
+                    grid.innerHTML = `
+                        <div class="empty-state" id="musicStatus">
+                            <i class="fa-solid fa-compact-disc"></i>
+                            <h2>Nothing Here</h2>
+                            <p>Our music roster is currently being updated. Please check back later.</p>
+                        </div>
+                    `;
+                }
             } catch (error) {
                 console.error("Error loading roster:", error);
             } finally {

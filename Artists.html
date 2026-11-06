@@ -10,7 +10,7 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KENDRICK & ARTISTS – Comedy</title>
+    <title>KENDRICK & ARTISTS – Personal Appearance</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Dubai:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -240,6 +240,21 @@
 
         .artist-link:hover .artist-card { border-color: #003366; }
         .artist-link:hover .artist-name { opacity: 0.7; }
+
+        /* --- EMPTY STATE (shown only when no artists are returned) --- */
+        .empty-state {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+            text-align: center;
+            color: #000;
+            font-family: 'Dubai', sans-serif;
+        }
+        .empty-state i { font-size: 3.5rem; margin-bottom: 20px; opacity: 0.2; }
+        .empty-state h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
         /* --- MOBILE RESPONSIVE QUERIES --- */
         @media (max-width: 1024px) {
@@ -531,7 +546,7 @@
     </div>
 
     <header>
-        <div class="logo">Comedy</div>
+        <div class="logo">Personal Appearance</div>
     </header>
 
     <div class="nav-trigger" id="menuBtn" onclick="toggleMenu()">MENU</div>
@@ -576,7 +591,7 @@
         </div>
     </div>
 
-    <main class="roster-grid" id="comedyGrid"></main>
+    <main class="roster-grid" id="appearanceGrid"></main>
 
 
     <!--footer -->
@@ -653,8 +668,12 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        async function loadComedyArtists() {
-            const grid = document.getElementById("comedyGrid");
+        // Firestore "section" values that belong on the Personal Appearance page.
+        // If your admin uses a different value, change it here.
+        const APPEARANCE_SECTIONS = ["appearance", "personal"];
+
+        async function loadAppearanceArtists() {
+            const grid = document.getElementById("appearanceGrid");
             grid.innerHTML = "";
 
             const q = query(
@@ -672,8 +691,8 @@
                 snapshot.forEach(docSnap => {
                     const artist = docSnap.data();
 
-                    // Show artists that belong to Comedy OR Both
-                    if (artist.section === "comedy" || artist.section === "both") {
+                    // Show artists that belong to Personal Appearance
+                    if (APPEARANCE_SECTIONS.includes(artist.section)) {
                         
                         // --- IMAGE OPTIMIZATION LOGIC ---
                         let optimizedImgUrl = artist.imageUrl || 'https://via.placeholder.com/500';
@@ -685,7 +704,7 @@
 
                         const a = document.createElement("a");
                         a.className = "artist-link";
-                        a.href = `profile.html?id=${docSnap.id}&from=comedy`;
+                        a.href = `profile.html?id=${docSnap.id}&from=appearance`;
                         a.innerHTML = `
                             <div class="artist-card">
                                 <img src="${optimizedImgUrl}" alt="${artist.name}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
@@ -699,6 +718,17 @@
                 
                 // 3. Append everything to the screen all at once
                 grid.appendChild(fragment);
+
+                // Only show the empty message when no artist matched this page
+                if (!grid.children.length) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fa-solid fa-user-group"></i>
+                            <h2>Nothing Here</h2>
+                            <p>Our personal appearance roster is currently being updated. Please check back later.</p>
+                        </div>
+                    `;
+                }
 
             } catch (error) {
                 console.error("Error loading roster:", error);
@@ -714,7 +744,7 @@
             }
         }
 
-        window.addEventListener("DOMContentLoaded", loadComedyArtists);
+        window.addEventListener("DOMContentLoaded", loadAppearanceArtists);
     </script>
 </body>
 </html>

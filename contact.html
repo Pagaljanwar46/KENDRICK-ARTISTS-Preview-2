@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-35DBJHNZH4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-35DBJHNZH4');
+    </script>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Kendrick Artists</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Dubai:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #121413;
+            --bg-olive: #7c8a74;
+            --text-white: #ffffff;
+            --text-dark: #1a1a1a;
+            --accent-red: #ff3b3b;
+            --loader-blue: #003366;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            text-transform: uppercase;
+            overflow: hidden; /* Locked until load finishes */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- PREMIUM FROSTED GLASS PRELOADER --- */
+        #glass-preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(240, 245, 255, 0.5) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .loading-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .loading-line-container {
+            width: 220px;
+            height: 3px;
+            background: rgba(0, 51, 102, 0.08);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-line {
+            position: absolute;
+            top: 0; left: 0; height: 100%; width: 50%;
+            background: linear-gradient(90deg, transparent, var(--loader-blue), #00509e, transparent);
+            border-radius: 4px;
+            animation: elasticSlide 1.8s infinite cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .loading-text {
+            font-family: 'Dubai', sans-serif;
+            color: var(--loader-blue);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            animation: pulseText 1.8s infinite ease-in-out;
+        }
+
+        @keyframes elasticSlide {
+            0% { transform: translateX(-150%) scaleX(1); }
+            50% { transform: translateX(20%) scaleX(1.6); }
+            100% { transform: translateX(200%) scaleX(1); }
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.9; }
+        }
+
+        #glass-preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* --- TACTICAL POPUP --- */
+        #status-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 10000;
+            display: none; align-items: center; justify-content: center;
+            backdrop-filter: blur(8px);
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: var(--bg-dark); border: 2px solid var(--bg-olive);
+            width: 100%; max-width: 450px; padding: 40px 30px; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-card::before {
+            content: "SYSTEM NOTIFICATION";
+            position: absolute; top: -12px; left: 20px;
+            background: var(--bg-olive); color: var(--bg-dark);
+            padding: 2px 10px; font-size: 10px; font-weight: 900;
+        }
+
+        .modal-icon { font-size: 50px; color: var(--bg-olive); margin-bottom: 20px; text-align: center; }
+        .modal-title { font-weight: 900; font-size: 24px; margin-bottom: 10px; text-align: center; }
+        .modal-text { font-size: 14px; text-align: center; opacity: 0.7; margin-bottom: 30px; line-height: 1.6; text-transform: none;}
+        .btn-modal { width: 100%; background: var(--bg-olive); border: none; padding: 15px; font-weight: 900; cursor: pointer; color: var(--bg-dark); transition: all 0.3s ease; }
+        .btn-modal:hover { background: var(--text-white); }
+
+        .modal-card.error { border-color: var(--accent-red); }
+        .modal-card.error::before { background: var(--accent-red); color: white; }
+        .modal-card.error .modal-icon { color: var(--accent-red); }
+        .modal-card.error .btn-modal { background: var(--accent-red); color: white; }
+        .modal-card.error .btn-modal:hover { background: white; color: var(--accent-red); }
+
+        /* --- MAIN SITE WRAPPER --- */
+        #main-site { opacity: 0; transition: opacity 1s ease; visibility: hidden; }
+        
+        .back-nav { position: absolute; top: 40px; left: 60px; z-index: 100; }
+        .back-btn { text-decoration: none; color: white; font-weight: 900; font-size: 14px; display: inline-flex; align-items: center; gap: 10px; letter-spacing: 2px; transition: color 0.3s ease, transform 0.3s ease; }
+        .back-btn:hover { color: var(--bg-olive); transform: translateX(-5px); }
+        
+        .vertical-text { position: fixed; right: 20px; bottom: 100px; writing-mode: vertical-rl; font-size: 12px; letter-spacing: 3px; font-weight: 700; opacity: 0.5; z-index: 10; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 70vh; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(18, 20, 19, 0.4), rgba(18, 20, 19, 0.9)), 
+                        url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=2070&auto=format&fit=crop') center/cover;
+            text-align: center; position: relative;
+            padding: 0 20px;
+        }
+
+        .timer-hud { font-weight: 700; font-size: 14px; letter-spacing: 2px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px;}
+        .seconds-box { background-color: var(--accent-red); padding: 4px 10px; display: inline-block; color: white;}
+        
+        /* Fluid Typography for Hero */
+        .hero h1 { font-size: clamp(3.5rem, 12vw, 12rem); font-weight: 900; line-height: 0.85; letter-spacing: -0.05em; }
+
+        /* --- MAIN CONTENT & FORM --- */
+        .main-content { display: grid; grid-template-columns: 1fr 1fr; background-color: var(--bg-olive); color: var(--text-dark); min-height: 100vh; }
+        .info-col, .form-col { padding: 100px 80px; display: flex; flex-direction: column; justify-content: center; }
+        
+        .info-col p { font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 700; margin-bottom: 60px; line-height: 1.5; }
+        .contact-details h3 { font-size: 14px; opacity: 0.7; letter-spacing: 2px; margin-bottom: 15px; border-bottom: 2px solid rgba(26, 26, 26, 0.2); padding-bottom: 10px; display: inline-block;}
+        .contact-details p { font-size: 18px; font-weight: 900; line-height: 1.6; margin-bottom: 0;}
+
+        .form-col { background: var(--bg-olive); }
+        .form-col h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; margin-bottom: 40px; }
+        
+        #energyForm { display: flex; flex-direction: column; gap: 25px; }
+        
+        input, textarea { 
+            width: 100%; 
+            background: rgba(255, 255, 255, 0.1); 
+            border: none; 
+            border-bottom: 2px solid rgba(26, 26, 26, 0.3); 
+            padding: 18px 20px; 
+            font-size: 16px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            outline: none; 
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+            border-radius: 4px 4px 0 0;
+        }
+        
+        input::placeholder, textarea::placeholder { color: rgba(26, 26, 26, 0.6); }
+        
+        input:focus, textarea:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-bottom-color: var(--bg-dark);
+        }
+
+        .btn-send { 
+            background-color: var(--bg-dark); 
+            color: var(--text-white); 
+            border: none; 
+            padding: 20px 40px; 
+            font-weight: 900; 
+            font-size: 16px;
+            cursor: pointer; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: space-between;
+            gap: 20px; 
+            transition: background 0.3s ease, transform 0.2s ease;
+            width: fit-content;
+        }
+        
+        .btn-send:hover:not(:disabled) { background-color: var(--accent-red); transform: translateY(-2px); }
+        .btn-send:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        /* --- MOBILE RESPONSIVENESS --- */
+        @media (max-width: 992px) { 
+            .main-content { grid-template-columns: 1fr; min-height: auto; } 
+            .info-col { padding: 80px 40px 40px 40px; }
+            .form-col { padding: 40px 40px 80px 40px; }
+            .vertical-text { display: none; } /* Hide on tablet/mobile to prevent clutter */
+            .back-nav { top: 30px; left: 30px; }
+        }
+
+        @media (max-width: 576px) {
+            .hero { height: 60vh; min-height: 400px; }
+            .info-col, .form-col { padding: 50px 20px; }
+            .back-nav { top: 20px; left: 20px; }
+            .btn-send { width: 100%; justify-content: center; }
+            .modal-card { padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="glass-preloader">
+        <div class="loading-wrapper">
+            <div class="loading-line-container">
+                <div class="loading-line"></div>
+            </div>
+            <div class="loading-text">LOADING</div>
+        </div>
+    </div>
+
+    <div id="status-modal">
+        <div class="modal-card" id="modal-card">
+            <div class="modal-icon" id="modal-icon"></div>
+            <h3 class="modal-title" id="modal-title"></h3>
+            <p class="modal-text" id="modal-text"></p>
+            <button class="btn-modal" onclick="closeModal()">ACKNOWLEDGE</button>
+        </div>
+    </div>
+
+    <div id="main-site">
+        <div class="back-nav"><a href="javascript:void(0)" class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i> RETURN</a></div>
+        <div class="vertical-text">REPRESENTING THE BOLD</div>
+
+        <section class="hero">
+            <div class="timer-hud">ESTABLISHED: 2026 YR <div class="seconds-box"><span id="seconds">00</span> SEC</div></div>
+            <h1>CONTACT</h1>
+        </section>
+
+        <main class="main-content">
+            <div class="info-col">
+                <p>Whether you’re curious about our artists, want to book a collaboration, or just need more information, we’re here to help.</p>
+                <div class="contact-details">
+                    <h3>HQ</h3>
+                    <p>Vennestaatweg 27<br>7151 HD Eibergen<br>The Netherlands</p>
+                </div>
+            </div>
+
+            <div class="form-col">
+                <h2>Request Contact</h2>
+                <form id="energyForm">
+                    <input type="text" name="first_name" placeholder="First Name*" required>
+                    <input type="text" name="last_name" placeholder="Last Name*" required>
+                    <input type="email" name="email" placeholder="Email Address*" required>
+                    <textarea name="message" rows="4" placeholder="Your Message"></textarea>
+                    <button type="submit" class="btn-send" id="sendBtn">SEND MESSAGE <i class="fa-solid fa-arrow-right"></i></button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+    <script>
+        // --- PRELOADER LOGIC ---
+        window.addEventListener("load", () => {
+            const preloader = document.getElementById('glass-preloader');
+            const site = document.getElementById('main-site');
+            
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+                site.style.visibility = 'visible';
+                site.style.opacity = '1';
+                document.body.style.overflow = 'auto';
+                
+                setTimeout(() => preloader.style.display = 'none', 800);
+            }, 1200); 
+        });
+
+        // --- POPUP LOGIC ---
+        function showStatus(type) {
+            const modal = document.getElementById('status-modal');
+            const card = document.getElementById('modal-card');
+            modal.style.display = 'flex';
+            if(type === 'success') {
+                card.className = 'modal-card';
+                document.getElementById('modal-icon').innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                document.getElementById('modal-title').innerText = 'DEPLOYMENT SUCCESSFUL';
+                document.getElementById('modal-text').innerText = 'Transmission received. Our team will contact you shortly.';
+            } else {
+                card.className = 'modal-card error';
+                document.getElementById('modal-icon').innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                document.getElementById('modal-title').innerText = 'SYSTEM ERROR';
+                document.getElementById('modal-text').innerText = 'Transmission failed. Please check your connection.';
+            }
+        }
+        function closeModal() { document.getElementById('status-modal').style.display = 'none'; }
+
+        // --- EMAILJS ---
+        (function(){ emailjs.init("ZcvcuUNQJ98su11LE"); })();
+        const form = document.getElementById("energyForm");
+        const sendBtn = document.getElementById("sendBtn");
+
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+            sendBtn.innerHTML = 'TRANSMITTING... <i class="fa-solid fa-spinner fa-spin"></i>';
+            sendBtn.disabled = true;
+
+            emailjs.sendForm("service_j7hksjn", "template_yxth06a", this)
+            .then(() => { 
+                showStatus('success');
+                form.reset();
+                sendBtn.innerHTML = 'SEND MESSAGE <i class="fa-solid fa-arrow-right"></i>';
+                sendBtn.disabled = false;
+            }, (err) => { 
+                showStatus('error');
+                sendBtn.innerHTML = 'SEND MESSAGE <i class="fa-solid fa-arrow-right"></i>';
+                sendBtn.disabled = false;
+            });
+        });
+
+        // --- HUD TIMER ---
+        let sec = 0;
+        setInterval(() => {
+            sec++; if (sec > 59) sec = 0;
+            document.getElementById('seconds').innerText = sec < 10 ? '0' + sec : sec;
+        }, 1000);
+
+        function goBack() { window.history.back(); }
+    </script>
+</body>
+</html>

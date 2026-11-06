@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-35DBJHNZH4"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-35DBJHNZH4');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KENDRICK & ARTISTS – Comedy</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dubai:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- RESET & FONTS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ================= NEW FROSTED HEADER ================= */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(10px); 
+            border-bottom: 1px solid #f0f0f0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: padding 0.3s ease;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #003366;
+            text-transform: lowercase;
+            letter-spacing: 0.5px;
+            transition: font-size 0.3s ease;
+        }
+
+        /* ================= MENU BUTTON ================= */
+        .nav-trigger {
+            position: fixed;
+            top: 22px; /* Aligns with the logo */
+            right: 40px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: #003366;
+            z-index: 1002; /* Keeps it above the menu overlay */
+            padding: 5px; 
+            transition: color 0.3s ease;
+        }
+
+        .nav-trigger.active {
+            color: white; /* Turns white when overlay is active */
+        }
+
+        /* --- FLEXBOX MENU OVERLAY --- */
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 1001; /* Lower than nav-trigger */
+            transform: translateY(-100%);
+            transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 8% 10%;
+            overflow: hidden;
+        }
+
+        .menu-overlay.active { transform: translateY(0); }
+
+        .menu-bg-image {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.5s ease, background-image 0.4s ease-in-out;
+            z-index: -1;
+        }
+
+        .menu-overlay.active .menu-bg-image { opacity: 0.4; }
+
+        .menu-header-label {
+            color: #fff;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: auto;
+            padding-top: 20px;
+        }
+
+        .submenu-wrapper {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: auto;
+        }
+
+        .submenu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .submenu {
+            display: flex;
+            align-items: center;
+            font-size: 3.5rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            line-height: 1.1;
+            transition: opacity 0.3s ease;
+            text-transform: lowercase;
+        }
+
+        .submenu span { font-weight: 300; margin-right: 20px; }
+        .submenu:hover { opacity: 0.6; }
+
+        .artist-info-box {
+            width: 260px;
+            background: transparent;
+            padding: 15px 20px;
+            color: #fff;
+            font-family: 'Dubai', sans-serif;
+            padding-bottom: 20px;
+        }
+
+        .artist-info-box h4 { font-size: 17px; font-weight: 900; }
+        .artist-info-box p { font-size: 13px; font-weight: 700; opacity: 0.8; }
+
+        /* Menu Footer (Socials & Contact) */
+        .menu-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-bottom: 20px;
+        }
+
+        .social-icons-wrapper {
+            display: flex;
+            gap: 25px;
+        }
+
+        .social-link {
+            color: #fff;
+            font-size: 1.2rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            padding: 5px;
+        }
+        
+        .social-link:hover { opacity: 1; transform: translateY(-3px); }
+
+        .contact-btn {
+            background: #fff;
+            color: #000;
+            padding: 14px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+        
+        .contact-btn:hover { background: #e0e0e0; }
+
+        /* --- ROSTER GRID --- */
+        .roster-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 120px 40px 40px 40px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .artist-card {
+            position: relative;
+            padding-top: 125%; 
+            overflow: hidden;
+            border: 4px solid transparent;
+            transition: border-color 0.3s ease;
+            background-color: #f5f5f7; 
+        }
+
+        .artist-card img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; 
+            height: 100%;
+            object-fit: cover;
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out; 
+        }
+
+        .artist-card img.loaded {
+            opacity: 1;
+        }
+
+        .artist-name {
+            margin-top: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: #000;
+        }
+
+        .artist-link {
+            text-decoration: none;
+            color: inherit;
+            display: block; 
+        }
+
+        .artist-link:hover .artist-card { border-color: #003366; }
+        .artist-link:hover .artist-name { opacity: 0.7; }
+
+        /* --- MOBILE RESPONSIVE QUERIES --- */
+        @media (max-width: 1024px) {
+            .roster-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                padding: 110px 30px 40px; 
+            }
+            .submenu { font-size: 2.5rem; }
+            .artist-info-box { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .roster-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                padding: 100px 20px 40px; 
+                gap: 20px;
+            }
+            .menu-overlay { padding: 8%; }
+            .submenu { font-size: 2rem; }
+            .submenu span { margin-right: 15px; }
+        }
+
+        @media (max-width: 480px) {
+            .roster-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 15px; 
+                padding: 90px 15px 30px; 
+            }
+            
+            header { padding: 15px 20px; }
+            .logo { font-size: 18px; }
+            .nav-trigger { top: 17px; right: 20px; font-size: 1rem; }
+            
+            .artist-name { font-size: 14px; margin-top: 8px; }
+
+            .menu-overlay { padding: 10% 6%; }
+            .submenu { font-size: 1.8rem; gap: 5px; }
+            .submenu span { margin-right: 10px; }
+
+            .menu-footer {
+                flex-direction: column-reverse;
+                align-items: flex-start;
+                gap: 30px;
+                padding-bottom: 30px;
+            }
+
+            .social-icons-wrapper { gap: 20px; }
+        }
+
+        /* --- PREMIUM FROSTED GLASS PRELOADER --- */
+        #glass-preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(240, 245, 255, 0.5) 100%);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            transform: translateZ(0); 
+        }
+
+        .loading-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px; 
+        }
+
+        .loading-line-container {
+            width: 220px;
+            height: 3px;
+            background: rgba(0, 51, 102, 0.08); 
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05); 
+        }
+
+       .loading-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 50%; 
+            background: linear-gradient(90deg, transparent, #003366, #00509e, transparent);
+            border-radius: 4px;
+            will-change: transform; 
+            animation: elasticSlide 1.8s infinite cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .loading-text {
+            font-family: 'Dubai', sans-serif;
+            color: #003366;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            animation: pulseText 1.8s infinite ease-in-out;
+        }
+
+        @keyframes elasticSlide {
+            0% { transform: translateX(-150%) scaleX(1); }
+            50% { transform: translateX(20%) scaleX(1.6); }
+            100% { transform: translateX(200%) scaleX(1); }
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.9; }
+        }
+
+        #glass-preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* ================= COMPACT CREAM FOOTER ================= */
+        .site-footer {
+            background-color: #fcfaf5; 
+            color: #000;
+            padding: 40px 40px 20px; 
+            margin-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            max-width: 1800px;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08); 
+            padding-bottom: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+        }
+
+        .footer-logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            color: #003366; 
+        }
+
+        .about-section p {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: rgba(0, 0, 0, 0.7); 
+            max-width: 350px;
+        }
+
+        .footer-section h4 {
+            font-family: 'Dubai', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            color: rgba(0, 0, 0, 0.5); 
+        }
+
+        .footer-email {
+            color: #003366; 
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .footer-email::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: #003366;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+
+        .footer-email:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-socials a {
+            color: #000;
+            font-size: 1.1rem;
+            opacity: 0.5;
+            transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
+        }
+
+        .footer-socials a:hover {
+            opacity: 1;
+            color: #003366; 
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: rgba(0, 0, 0, 0.45);
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                gap: 35px;
+            }
+            .about-section p {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-footer { padding: 40px 20px 20px; }
+            .footer-logo { font-size: 1rem; }
+            .footer-email { font-size: 0.95rem; }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+                text-align: left;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body class="comedy-page">
+
+    <div id="glass-preloader">
+        <div class="loading-wrapper">
+            <div class="loading-line-container">
+                <div class="loading-line"></div>
+            </div>
+            <div class="loading-text">LOADING</div>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">Comedy</div>
+    </header>
+
+    <div class="nav-trigger" id="menuBtn" onclick="toggleMenu()">MENU</div>
+    <div class="menu-overlay" id="menu">
+        <div class="menu-bg-image" id="menuBg"></div>
+        <div class="menu-header-label">talent</div>
+
+        <div class="submenu-wrapper">
+            <div class="submenu-list">
+                 <a href="comedy.html" class="submenu" data-bg="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=1920">
+                    <span>&gt;</span> Comedy
+                </a>
+                <a href="Artists.html" class="submenu" data-bg="https://res.cloudinary.com/dgcr7e27r/image/upload/v1769848593/Best-Cameras_bb8kf5.webp">
+                    <span>&gt;</span> Personal Appearance
+                </a>
+                  <a href="music.html" class="submenu" data-bg="https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&q=80&w=1920">
+                    <span>&gt;</span> Music
+                </a>
+                <a href="index.html" class="submenu" data-bg="https://images.unsplash.com/photo-1493225255756-d9584f8606e9?auto=format&fit=crop&q=80&w=1920">
+                    <span>&gt;</span> Home
+                </a>
+            </div>
+            
+            <div class="artist-info-box">
+                <h4>Artist Manager/Agent</h4>
+                <p>(AHR-tist MAN-uh-jer)</p>
+                <p style="margin-top: 8px;">
+                   A person responsible for developing a comedian’s long-term strategy, advising on branding and creative choices, managing relationships with venues, agents, and other industry professionals, and collaborating with booking agents who secure live appearances, negotiate show terms, and coordinate the logistics of performances.    
+                </p>
+            </div>
+        </div>
+
+        <div class="menu-footer">
+            <div class="social-icons-wrapper">
+                <a href="#" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" target="_blank" class="social-link"><i class="fab fa-x-twitter"></i></a>
+                <a href="#" target="_blank" class="social-link"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <a href="contact.html" class="contact-btn">Contact</a>
+        </div>
+    </div>
+
+    <main class="roster-grid" id="comedyGrid"></main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-section about-section">
+                <h3 class="footer-logo">Kendrick & Artists</h3>
+                <p>A premier talent management and booking agency representing the absolute best in comedy, music, and personal appearances worldwide.</p>
+            </div>
+            
+            <div class="footer-section contact-section">
+                <h4>Inquiries</h4>
+                <a href="mailto:clark@kendrickartists.com" class="footer-email">clark@kendrickartists.com</a>
+            </div>
+
+            <div class="footer-section social-section">
+                <h4>Follow Us</h4>
+                <div class="footer-socials">
+                    <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Kendrick & Artists. All rights reserved.</p>
+            <p>Designed in Los Angeles</p>
+        </div>
+    </footer>
+
+    <script>
+        // UPDATED JAVASCRIPT FOR THE NEW MENU BUTTON
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const btn = document.getElementById('menuBtn');
+
+            menu.classList.toggle('active');
+
+            if (menu.classList.contains('active')) {
+                btn.textContent = 'close';
+                btn.classList.add('active'); // Turns it white
+            } else {
+                btn.textContent = 'menu';
+                btn.classList.remove('active'); // Turns it back to blue
+            }
+        }
+
+        const submenus = document.querySelectorAll('.submenu');
+        const menuBg = document.getElementById('menuBg');
+        submenus.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                const bgUrl = item.getAttribute('data-bg');
+                if (bgUrl) menuBg.style.backgroundImage = `url('${bgUrl}')`;
+            });
+        });
+    </script>
+
+   <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where, orderBy } 
+        from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAGbc3hE5qsN8axCsRNaNH4CNSDp3Yave8",
+            authDomain: "kendrick-artists-clarck.firebaseapp.com",
+            projectId: "kendrick-artists-clarck",
+            storageBucket: "kendrick-artists-clarck.firebasestorage.app",
+            messagingSenderId: "695415417830",
+            appId: "1:695415417830:web:f5d196cdf9334f80220427"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadComedyArtists() {
+            const grid = document.getElementById("comedyGrid");
+            grid.innerHTML = "";
+
+            const q = query(
+                collection(db, "artists"),
+                where("active", "==", true),
+                orderBy("order", "asc")
+            );
+
+            try {
+                const snapshot = await getDocs(q);
+                
+                const fragment = document.createDocumentFragment();
+
+                snapshot.forEach(docSnap => {
+                    const artist = docSnap.data();
+
+                    if (artist.section === "comedy" || artist.section === "both") {
+                        let optimizedImgUrl = artist.imageUrl || 'https://via.placeholder.com/500';
+                        
+                        if (optimizedImgUrl.includes('res.cloudinary.com')) {
+                            optimizedImgUrl = optimizedImgUrl.replace('/upload/', '/upload/w_600,q_auto,f_auto/');
+                        }
+
+                        const a = document.createElement("a");
+                        a.className = "artist-link";
+                        a.href = `profile.html?id=${docSnap.id}&from=comedy`;
+                        a.innerHTML = `
+                            <div class="artist-card">
+                                <img src="${optimizedImgUrl}" alt="${artist.name}" loading="lazy" decoding="async" onload="this.classList.add('loaded')">
+                            </div>
+                            <div class="artist-name">${artist.name}</div>
+                        `;
+                        fragment.appendChild(a);
+                    }
+                });
+                
+                grid.appendChild(fragment);
+
+            } catch (error) {
+                console.error("Error loading roster:", error);
+            } finally {
+                const preloader = document.getElementById('glass-preloader');
+                if (preloader) {
+                    preloader.classList.add('hidden');
+                    setTimeout(() => preloader.style.display = 'none', 800);
+                }
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", loadComedyArtists);
+    </script>
+</body>
+</html>
